@@ -45,7 +45,9 @@
                                     <i class="fa fa-2x fa-times text-red" aria-hidden="true"></i>
                                 </button>
                             </form>
+                            @if($code->status == 'active')
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="{{route('code.edit', $code->id)}}"><i class="fa fa-2x fa-pencil-square-o" aria-hidden="true"></i></a></td>
+                            @endif
                     </tr>
                 @empty
                     <tr>

@@ -80,7 +80,7 @@ class CodeController extends Controller
      */
     public function edit(Code $code)
     {
-        // usare la stessa vista di codeCreate ma popolando i campi.
+        return view('user.codeCreate', compact('code'));
     }
 
     /**
@@ -92,7 +92,14 @@ class CodeController extends Controller
      */
     public function update(Request $request, Code $code)
     {
-        //
+        $code->name_visitor = $request->input('name');
+        $code->surname_visitor = $request->input('surname');
+        $code->type = $request->input('type');
+        $code->expiration = $request->input('expiration') ? $request->input('expiration') : date("Y-m-d");
+        $res = $code->save();
+        $message = $res ? 'Correctly updated code' : 'Update error, try again';
+        session()->flash('message', $message);
+        return redirect()->route('code.index');
     }
 
     /**
