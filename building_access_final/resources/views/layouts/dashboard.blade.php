@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
 
+    <!-- CSRF Token -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <title>Building access</title>
 
 
@@ -16,6 +19,8 @@
     <link rel="stylesheet" href="{{asset('css/adminlte/adminlte.min.css')}}">
     <!-- Google Font: Source Sans Pro -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+    <!-- jQuery -->
+    <script src="{{asset('js/adminlte/jquery.min.js')}}"></script>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
 <div class="wrapper">
@@ -26,27 +31,15 @@
             <li class="nav-item">
                 <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fa fa-bars"></i></a>
             </li>
-            <li class="nav-item d-none d-sm-inline-block">
-                <a href="/" class="nav-link">Home</a>
-            </li>
-            <li class="nav-item d-none d-sm-inline-block">
-                <a href="#" class="nav-link">Contact</a>
-            </li>
         </ul>
 
         <!-- Right navbar links -->
         <ul class="navbar-nav ml-auto">
             <!-- Authentication Links -->
-            @guest
+
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-                </li>
-                @if (Route::has('register'))
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                    </li>
-                @endif
-            @else
+                <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+            </li>
                 <li class="nav-item dropdown">
                     <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                         {{ Auth::user()->name }} <span class="caret"></span>
@@ -64,7 +57,7 @@
                         </form>
                     </div>
                 </li>
-            @endguest
+
         </ul>
 
     </nav>
@@ -86,7 +79,7 @@
 
                 </div>
                 <div class="info">
-                    <a href="#" class="d-block"><i class="fa fa-user-o " > </i> &nbsp;&nbsp;&nbsp;{{ Auth::user()->name }}</a>
+                    <a href="#" class="d-block"><i class="fa fa-user-o "aria-hidden="true"></i> &nbsp;&nbsp;&nbsp;{{ Auth::user()->name }}</a>
                 </div>
             </div>
 
@@ -97,23 +90,24 @@
                          with font-awesome or any other icon font library -->
 
                             <li class="nav-item">
-                                <a href="./index.html" class="nav-link active">
-                                    <i class="fa fa-circle nav-icon"></i>
+                                <a href="{{route('code.index')}}" class="nav-link active">
+                                    <i class="fa fa-home" aria-hidden="true"></i>
                                     <p>Dashboard</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="./index2.html" class="nav-link">
-                                    <i class="fa fa-circle nav-icon"></i>
-                                    <p>Profile</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="./index3.html" class="nav-link">
-                                    <i class="fa fa-circle nav-icon"></i>
+                                <a href="{{route('code.create')}}" class="nav-link">
+                                    <i class="fa fa-plus" aria-hidden="true"></i>
                                     <p>New code</p>
                                 </a>
                             </li>
+
+                    <li class="nav-item disabled">
+                        <a href="#" class="nav-link">
+                            <i class="fa fa-envelope-o" aria-hidden="true"></i>
+                            <p>Contact</p>
+                        </a>
+                    </li>
 
 
                 </ul>
@@ -129,8 +123,15 @@
         <div class="content-header">
             <div class="container-fluid">
                 <div class="row mb-2">
-                    <div class="col-sm-12">
+                    <div class="col-sm-3">
                         <h1 class="m-0 text-dark">Dashboard v2</h1>
+                    </div><!-- /.col -->
+                    <div class="col-sm-9">
+                        @if(session()->has('message'))
+                            @component('components.alert-info')
+                                {{session()->get('message')}}
+                            @endcomponent
+                        @endif
                     </div><!-- /.col -->
                 </div><!-- /.row -->
             </div><!-- /.container-fluid -->
@@ -163,8 +164,6 @@
 <!-- ./wrapper -->
 
 <!-- REQUIRED SCRIPTS -->
-<!-- jQuery -->
-<script src="{{asset('js/adminlte/jquery.min.js')}}"></script>
 <!-- Bootstrap -->
 <script src="{{asset('js/adminlte/bootstrap.bundle.min.js')}}"></script>
 <!-- overlayScrollbars -->
@@ -172,8 +171,15 @@
 <!-- AdminLTE App -->
 <script src="{{asset('js/adminlte/adminlte.min.js')}}"></script>
 
-
 <!-- PAGE SCRIPTS -->
 <script src="{{asset('js/adminlte/dashboard2.js')}}"></script>
+<!-- JQuery Datepicker -->
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script>
+    $( function() {
+        $( "#datepicker" ).datepicker({ dateFormat: 'yy-mm-dd' }).val();
+    } );
+</script>
 </body>
 </html>

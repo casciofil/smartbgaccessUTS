@@ -19,9 +19,10 @@ class CreateCodesTable extends Migration
             $table->string('name_visitor');
             $table->string('surname_visitor');
             $table->enum('type', ['one','multi']);
-            $table->date('expired');
+            $table->date('expiration');
             $table->enum('status', ['active', 'expired']);
             $table->bigInteger('user_id')->unsigned();
+            $table->integer('access_code');
             $table->foreign('user_id')->on('users')->references('id')->onDelete('cascade')->onUpdate('cascade');
             $table->softDeletes();
         });
